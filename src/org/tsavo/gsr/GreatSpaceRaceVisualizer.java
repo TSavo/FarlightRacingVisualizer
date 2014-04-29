@@ -31,9 +31,9 @@ public class GreatSpaceRaceVisualizer extends PApplet {
 			if (keyCode == UP) {
 				thrust = 1.0f;
 			} else if (keyCode == LEFT) {
-				rotation = 1.0f;
-			} else if (keyCode == RIGHT) {
 				rotation = -1.0f;
+			} else if (keyCode == RIGHT) {
+				rotation = 1.0f;
 			}
 		}
 	}
@@ -88,24 +88,24 @@ public class GreatSpaceRaceVisualizer extends PApplet {
 				for (int index = 0; index < players.length(); index++) {
 					org.json.JSONObject player = players.optJSONObject(index);
 					
-					//org.json.JSONArray dims = player.getJSONArray("Dimensions");
+					org.json.JSONArray dims = player.getJSONArray("Dimensions");
 					org.json.JSONArray pos = player.getJSONArray("Position");
 
 					float x = (float) pos.getDouble(0);
 					float y = (float) pos.getDouble(1);
-					//float w = (float) dims.getDouble(0);
-					//float h = (float) dims.getDouble(1);
+					float w = (float) dims.getDouble(0);
+					float h = (float) dims.getDouble(1);
 					float a = (float) player.getDouble("Angle");
 					float px = x + cos(radians(a)) * 50;
 			        float py = y + sin(radians(a)) * 50;
-			        rotate(a);
-					camera(x, y, 0, px, py, 0, 0, 0, 1);
-//					pushMatrix();
-//								
-//					translate(x, y);
-//					rotate(a);
-//					box(w, h, 50);
-//					popMatrix();
+			        //rotate(a);
+					//camera(x, 25, y, px, 25, py, 0, 1, 0);
+					//rotate(0);
+					pushMatrix();			
+					translate(x, y);
+					rotate(a);
+					box(w, h, 50);
+					popMatrix();
 				}
 			} catch (Exception e) {
 			}
