@@ -84,7 +84,7 @@ public class GreatSpaceRaceVisualizer extends PApplet {
 					box(width, height, 50);
 					popMatrix();
 				}
-				org.json.JSONArray players = scene.getJSONArray("players");
+				org.json.JSONArray players = scene.getJSONArray("Data");
 				for (int index = 0; index < players.length(); index++) {
 					org.json.JSONObject player = players.optJSONObject(index);
 					
