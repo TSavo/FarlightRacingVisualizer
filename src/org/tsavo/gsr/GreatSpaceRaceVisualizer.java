@@ -1,6 +1,7 @@
 package org.tsavo.gsr;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import processing.core.PApplet;
@@ -20,10 +21,32 @@ public class GreatSpaceRaceVisualizer extends PApplet {
 	Client client;
 	float thrust = 0.0f;
 	float rotation = 0.0f;
+	JSONArray track;
 
 	public void setup() {
 		size(displayWidth, displayHeight, P3D);
 		client = new Client(this, "127.0.0.1", 8080);
+		while(!client.active()){
+			
+		}
+		client.write("{\"Name\":\"Kevlar\", \"Track\":\"Test Track\", \"Prototype\":\"Test\", \"NumPlayers\":1}\n");
+		String messageSoFar = null;
+		while (messageSoFar == null) {
+			messageSoFar = client.readStringUntil('\n');
+		}
+		JSONObject scene;
+		try {
+			System.out.print(messageSoFar);
+			scene = new JSONObject(messageSoFar).getJSONObject("Data");
+			track = scene.getJSONObject("Track").getJSONArray(
+					"Walls");
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	public void keyPressed() {
@@ -63,10 +86,8 @@ public class GreatSpaceRaceVisualizer extends PApplet {
 				if (messageSoFar == null) {
 					continue;
 				}
-				// System.out.println(messageSoFar);
+				//System.out.print(messageSoFar);
 				JSONObject scene = new JSONObject(messageSoFar);
-				JSONArray track = scene.getJSONObject("track").getJSONArray(
-						"Walls");
 				for (int index = 0; index < track.length(); index++) {
 					stroke(0, 0, 0);
 					pushMatrix();
